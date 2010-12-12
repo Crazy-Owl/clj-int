@@ -1,3 +1,12 @@
 Clj-int - clojure bindings for swing.
 
 This is still some stuff to play around, hope i'll be able to update it.
+
+How-to:
+
+1) go to src/ directory
+2) start clojure repl, make sure that clj-int/widgets.clj is visible from classpath
+3) in a repl, enter
+   (use 'clj-int.widgets)
+   (test-frame)
+4) a frame with label and button should appear
