@@ -8,5 +8,8 @@ How-to:
 2) start clojure repl, make sure that clj-int/widgets.clj is visible from classpath
 3) in a repl, enter
    (use 'clj-int.widgets)
+   - to use the library itself, or
+   (use 'clj-int.example)
    (test-frame)
-4) a frame with label and button should appear
+   - to show test frame
+4) have fun!

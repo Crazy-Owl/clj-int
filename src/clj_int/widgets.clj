@@ -29,10 +29,10 @@
 		 props (:properties-map s)]
 	     (if-let [name (:name props)]
 	       (.setTitle frame name))
-	     (if-let [layout (:layout props)]
-	       (.setLayout frame layout))
 	     (if-let [contents (:contents props)] ;`aer        jjjjjjjjjjjj gggggggggggggggggm     mc
 	       (let [panel (JPanel.)]
+		 (if-let [layout (:layout props)]
+		   (.setLayout panel layout))
 		 (doseq [wid contents]
 		   (if (map? wid)
 		     (.add panel (:obj wid) (:layout wid))
@@ -84,22 +84,3 @@
 (defmethod make-widget :default [s]
 	   (make-widget (struct widget :label {:text "Unimplemented yet"})))
 
-;Demo frame.
-(defn test-frame []
-  (let [test-label (make-widget (struct widget :label {:text "test label"}))
-	;; a button that writes a text to label
-	test-button (make-widget (struct widget :button {:text "test button"
-							 :callback (fn [e] (let [txt (.getText test-label)]
-									     (.setText test-label (str txt 1))))}))
-	test-layout (java.awt.GridLayout. 2 1) ;layout
-	test-panel (make-widget (struct widget :panel {:layout test-layout
-						       :contents [test-label
-								  test-button]}))
-	test-frame (make-widget (struct widget :frame {:name "Test frame"
-						       ;;was unable to test layout in map-as-object yet
-						       :contents [{:obj test-panel 
-								   :layout java.awt.BorderLayout/SOUTH}]
-						       :size [500 500]
-						       :on-close JFrame/HIDE_ON_CLOSE}))]
-    (.setVisible test-frame true)
-    test-frame))
