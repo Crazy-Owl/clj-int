@@ -100,7 +100,12 @@
 	       (.setEditable area editable))
 	     (if-let [text (:initial props)]
 	       (.setText area text))
+	     (if-let [cols (:cols props)]
+	       (.setColumns area cols))
+	     (if-let [rows (:rows props)]
+	       (.setRows area rows))
 	     area))
+
 ;Default implementation adds a label instead of not implemented control
 (defmethod make-widget :default [s]
 	   (make-widget (struct widget :label {:text "Unimplemented yet"})))
