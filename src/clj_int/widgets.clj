@@ -29,10 +29,14 @@
 		 props (:properties-map s)]
 	     (if-let [name (:name props)]
 	       (.setTitle frame name))
+	     (if-let [layout (:layout props)]
+	       (.setLayout frame layout))
 	     (if-let [contents (:contents props)] ;`aer        jjjjjjjjjjjj gggggggggggggggggm     mc
 	       (let [panel (JPanel.)]
 		 (doseq [wid contents]
-		   (.add panel wid))
+		   (if (map? wid)
+		     (.add panel (:obj wid) (:layout wid))
+		     (.add panel wid)))
 		 (.add frame panel)))
 	     (if-let [[xs ys] (:size props)]
 	       (.setSize frame xs ys))
@@ -50,6 +54,19 @@
 	     (if-let [icon (:icon props)]
 	       (.setIcon label icon))
 	     label))
+
+;;Panel widget
+(defmethod make-widget :panel [s]
+	   (let [panel (JPanel.)
+		 props (:properties-map s)]
+	     (if-let [layout (:layout props)]
+	       (.setLayout panel layout))
+	     (if-let [contents (:contents props)]
+	       (doseq [wid contents]
+		 (if (map? wid)
+		   (.add panel (:obj wid) (:layout wid))
+		   (.add panel wid))))
+	     panel))
 
 ;Button widget, has :callback property, which holds a lambda
 (defmethod make-widget :button [s]
@@ -70,11 +87,18 @@
 ;Demo frame.
 (defn test-frame []
   (let [test-label (make-widget (struct widget :label {:text "test label"}))
+	;; a button that writes a text to label
 	test-button (make-widget (struct widget :button {:text "test button"
 							 :callback (fn [e] (let [txt (.getText test-label)]
 									     (.setText test-label (str txt 1))))}))
+	test-layout (java.awt.GridLayout. 2 1) ;layout
+	test-panel (make-widget (struct widget :panel {:layout test-layout
+						       :contents [test-label
+								  test-button]}))
 	test-frame (make-widget (struct widget :frame {:name "Test frame"
-						       :contents [test-label test-button]
+						       ;;was unable to test layout in map-as-object yet
+						       :contents [{:obj test-panel 
+								   :layout java.awt.BorderLayout/SOUTH}]
 						       :size [500 500]
 						       :on-close JFrame/HIDE_ON_CLOSE}))]
     (.setVisible test-frame true)
