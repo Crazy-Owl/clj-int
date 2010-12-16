@@ -80,6 +80,25 @@
 	       (.setIcon button icon))
 	     button))
 
+;;Text field widget
+(defmethod make-widget :text-field [s]
+	   (let [field (JTextField.)
+		 props (:properties-map s)]
+	     (if-let [editable (:editable props)]
+	       (.setEditable field editable))
+	     (if-let [text (:initial props)]
+	       (.setText field text))
+	     field))
+
+;;Text area widget
+(defmethod make-widget :text-area [s]
+	   (let [area (JTextArea.)
+		 props (:properties-map s)]
+	     (if-let [editable (:editable props)]
+	       (.setEditable area editable))
+	     (if-let [text (:initial props)]
+	       (.setText area text))
+	     area))
 ;Default implementation adds a label instead of not implemented control
 (defmethod make-widget :default [s]
 	   (make-widget (struct widget :label {:text "Unimplemented yet"})))
