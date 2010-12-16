@@ -3,27 +3,46 @@
   (:import [java.awt
 	    BorderLayout
 	    GridLayout]
-	   [javax.swing JFrame]))
+	   [javax.swing
+	    JFrame]))
 
 ;Demo frame.
 (defn test-frame []
   (let [test-label (make-widget (struct widget :label {:text "test label"}))
 	test-label-2 (make-widget (struct widget :label {:text "Text widget #2"}))
+	test-text-input (make-widget (struct widget :text-field {:initial "Enter text here"
+								 :editable true}))
+	test-text-area (make-widget (struct widget :text-area {:initial "Text will also appear here:"
+							       :editable false
+							       :size [30 40]
+							       :wrap false}))
+	;;scroll does not work yet
+	test-scroll (JScrollPane. test-text-area)
+	test-input-panel (make-widget (struct widget :panel {:layout (BorderLayout.)
+							     :contents [{:obj test-text-area
+									 :layout BorderLayout/CENTER}
+									{:obj test-scroll
+									 :layout BorderLayout/EAST}
+									{:obj test-text-input
+									 :layout BorderLayout/SOUTH}]}))
 	;; a button that writes a text to label
 	test-button (make-widget (struct widget :button {:text "test button"
-							 :callback (fn [e] (let [txt (.getText test-label)]
-									     (.setText test-label (str txt 1))))}))
-	test-layout (GridLayout. 2 1) ;layout
-	test-panel (make-widget (struct widget :panel {:layout test-layout
+							 :callback (fn [e] (let [txt (.getText test-text-input)]
+									     (.setText test-label txt)
+									     (.append test-text-area (str \newline txt))))}))
+	test-panel (make-widget (struct widget :panel {:layout (GridLayout. 2 1)
 						       :contents [test-label
 								  test-button]}))
 	test-frame (make-widget (struct widget :frame {:name "Test frame"
 						       :layout (BorderLayout.)
 						       :contents [{:obj test-label-2
 								   :layout BorderLayout/NORTH}
+								  {:obj test-input-panel
+								   :layout BorderLayout/CENTER}
 								  {:obj test-panel 
 								   :layout BorderLayout/SOUTH}]
-						       :size [500 500]
 						       :on-close JFrame/HIDE_ON_CLOSE}))]
-    (.setVisible test-frame true)
+    (doto test-frame
+      (.pack)
+      (.setVisible true))
     test-frame))
