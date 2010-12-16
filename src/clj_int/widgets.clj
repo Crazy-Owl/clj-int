@@ -3,6 +3,8 @@
 	    JFrame
 	    JButton
 	    JPanel
+	    JTextField
+	    JTextArea
 	    JLabel
 	    ImageIcon]
 	   [java.io File]
@@ -100,10 +102,10 @@
 	       (.setEditable area editable))
 	     (if-let [text (:initial props)]
 	       (.setText area text))
-	     (if-let [cols (:cols props)]
-	       (.setColumns area cols))
-	     (if-let [rows (:rows props)]
-	       (.setRows area rows))
+	     (if-let [[cols rows] (:size props)]
+	       (do
+		 (.setColumns area cols)
+		 (.setRows area rows)))
 	     (if-let [wrap (:wrap props)]
 	       (.setLineWrap area wrap))
 	     (if-let [wrap-words (:wrap-words props)]
