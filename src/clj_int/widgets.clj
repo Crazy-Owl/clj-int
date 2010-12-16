@@ -53,6 +53,8 @@
 	       (.setText label text))
 	     (if-let [icon (:icon props)]
 	       (.setIcon label icon))
+	     (if-let [align (:align props)]
+	       (.setAlign label align))
 	     label))
 
 ;;Panel widget
