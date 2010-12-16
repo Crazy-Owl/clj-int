@@ -104,6 +104,10 @@
 	       (.setColumns area cols))
 	     (if-let [rows (:rows props)]
 	       (.setRows area rows))
+	     (if-let [wrap (:wrap props)]
+	       (.setLineWrap area wrap))
+	     (if-let [wrap-words (:wrap-words props)]
+	       (.setWrapStyleForward area wrap-words))
 	     area))
 
 ;Default implementation adds a label instead of not implemented control
