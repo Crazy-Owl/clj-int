@@ -88,8 +88,9 @@
 (defmethod make-widget :text-field [s]
 	   (let [field (JTextField.)
 		 props (:properties-map s)]
-	     (if-let [editable (:editable props)]
-	       (.setEditable field editable))
+	     (let [editable (:editable props)]
+	       (if (not (nil? editable))
+		 (.setEditable field editable)))
 	     (if-let [text (:initial props)]
 	       (.setText field text))
 	     field))
@@ -98,8 +99,9 @@
 (defmethod make-widget :text-area [s]
 	   (let [area (JTextArea.)
 		 props (:properties-map s)]
-	     (if-let [editable (:editable props)]
-	       (.setEditable area editable))
+	     (let [editable (:editable props)]
+	       (if (not (nil? editable))
+		 (.setEditable area editable)))
 	     (if-let [text (:initial props)]
 	       (.setText area text))
 	     (if-let [[cols rows] (:size props)]
