@@ -15,8 +15,8 @@
 								 :editable true}))
 	test-text-area (make-widget (struct widget :text-area {:initial "Text will also appear here:"
 							       :editable false
-							       :size [30 40]
-							       :wrap false}))
+							       :size [30 20]
+							       :wrap true}))
 	;;scroll does not work yet
 	test-scroll (JScrollPane. test-text-area)
 	test-input-panel (make-widget (struct widget :panel {:layout (BorderLayout.)
@@ -34,8 +34,9 @@
 	test-panel (make-widget (struct widget :panel {:layout (GridLayout. 2 1)
 						       :contents [test-label
 								  test-button]}))
-	test-frame (make-widget (struct widget :frame {:name "Test frame"
+	test-frame (make-widget (struct widget :frame {:name "clj-int test frame"
 						       :layout (BorderLayout.)
+						       :size [350 550]
 						       :contents [{:obj test-label-2
 								   :layout BorderLayout/NORTH}
 								  {:obj test-input-panel

@@ -117,4 +117,3 @@
 ;Default implementation adds a label instead of not implemented control
 (defmethod make-widget :default [s]
 	   (make-widget (struct widget :label {:text "Unimplemented yet"})))
-
