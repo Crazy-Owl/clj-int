@@ -17,8 +17,7 @@
 							       :editable false
 							       :size [30 20]
 							       :wrap true}))
-	;;scroll does not work yet
-	test-scroll (JScrollPane. test-text-area)
+	test-scroll (JScrollPane.)
 	test-input-panel (make-widget (struct widget :panel {:layout (BorderLayout.)
 							     :contents [{:obj test-text-area
 									 :layout BorderLayout/CENTER}
@@ -44,6 +43,8 @@
 								  {:obj test-panel 
 								   :layout BorderLayout/SOUTH}]
 						       :on-close JFrame/HIDE_ON_CLOSE}))]
+    (doto test-scroll
+      (.setViewportView test-text-area)) ;;had to add this for scroll finally to work 
     (doto test-frame
       (.pack)
       (.setVisible true))
