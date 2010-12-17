@@ -4,6 +4,7 @@
 	    BorderLayout
 	    GridLayout]
 	   [javax.swing
+	    JScrollPane
 	    JFrame]))
 
 ;Demo frame.
