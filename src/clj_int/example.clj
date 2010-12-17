@@ -25,7 +25,7 @@
 									 :layout BorderLayout/EAST}
 									{:obj test-text-input
 									 :layout BorderLayout/SOUTH}]}))
-	;; a button that writes a text to label
+	;; a button that writes entered text to label and textarea
 	test-button (make-widget (struct widget :button {:text "test button"
 							 :callback (fn [e] (let [txt (.getText test-text-input)]
 									     (.setText test-label txt)
